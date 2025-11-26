@@ -18,7 +18,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -30,6 +29,11 @@
 
         <activity
             android:name=".WatchListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Anime_watchlist" />
+            
+        <activity
+            android:name=".BrowseActivity"
             android:exported="false"
             android:theme="@style/Theme.Anime_watchlist" />
 
