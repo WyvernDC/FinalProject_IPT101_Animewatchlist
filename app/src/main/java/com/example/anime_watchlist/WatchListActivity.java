@@ -1,6 +1,8 @@
 package com.example.anime_watchlist;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,11 +20,15 @@ public class WatchListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watchlist);
 
+        // Back Button Logic
+        ImageView btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> {
+            // Go back to MainActivity (or previous screen)
+            finish(); 
+        });
+
         moviesRecyclerView = findViewById(R.id.moviesRecyclerView);
 
-        // Setup RecyclerView
-        // Using span count 2 to match the layout
-        // Fixed constructor call to match AnimeAdapter definition (List, layoutId)
         adapter = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card);
         moviesRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         moviesRecyclerView.setAdapter(adapter);

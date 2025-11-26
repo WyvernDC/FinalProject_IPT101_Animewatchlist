@@ -9,4 +9,7 @@
     <string name="header_upcoming">UPCOMING</string>
     <string name="header_top">TOP MOVIES</string>
     <string name="header_for_you">FOR YOU</string>
+    <string name="cd_back_arrow">Back</string>
+    <string name="title_watchlist">Watchlist</string>
+    <string name="subtitle_watchlist">All your favorite movies in one place</string>
 </resources>
