@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Anime watchlist</string>
+    <string name="cd_animedao_logo">AnimeDao Logo</string>
+    <string name="text_animedao">AnimeDao</string>
+    <string name="hint_search">Search your movie...</string>
+    <string name="cd_search_icon">Search Icon</string>
+    <string name="text_watch_list">Watch List</string>
+    <string name="header_latest">LATEST MOVIES</string>
+    <string name="header_upcoming">UPCOMING</string>
+    <string name="header_top">TOP MOVIES</string>
+    <string name="header_for_you">FOR YOU</string>
+</resources>
