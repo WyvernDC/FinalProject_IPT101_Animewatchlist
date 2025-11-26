@@ -31,9 +31,7 @@
         <activity
             android:name=".WatchListActivity"
             android:exported="false"
-            android:theme="@style/Theme.Anime_watchlist" 
-            android:screenOrientation="landscape" /> 
-            <!-- Enforcing landscape because the layout is clearly designed for wide screens -->
+            android:theme="@style/Theme.Anime_watchlist" />
 
     </application>
 
