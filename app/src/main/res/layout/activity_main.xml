@@ -24,18 +24,17 @@
             android:id="@+id/img_logo"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_anime_dao_logo"
-            app:tint="#4A90E2"
+            android:src="@drawable/otakuhub_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="@string/cd_animedao_logo" />
+            android:contentDescription="@string/cd_otakuhub_logo" />
 
         <TextView
             android:id="@+id/tv_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_animedao"
+            android:text="@string/text_otakuhub"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -56,7 +55,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintStart_toEndOf="@id/tv_app_name"
-            app:layout_constraintEnd_toStartOf="@id/img_profile"
+            app:layout_constraintEnd_toStartOf="@id/tv_list_button"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -86,19 +85,6 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/img_profile"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/ic_profile"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#FFFFFF"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@id/tv_list_button"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="@string/desc_profile" />
-
         <TextView
             android:id="@+id/tv_list_button"
             android:layout_width="wrap_content"
@@ -107,9 +93,22 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:padding="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@id/img_profile"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_profile"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_profile"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/desc_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

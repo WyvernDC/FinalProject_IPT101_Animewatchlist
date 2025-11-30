@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Anime watchlist</string>
-    <string name="cd_animedao_logo">AnimeDao Logo</string>
-    <string name="text_animedao">OtakuHub</string>
+    <string name="cd_otakuhub_logo">OtakuHub Logo</string>
+    <string name="text_otakuhub">OtakuHub</string>
     <string name="hint_search">Search your movie...</string>
     <string name="cd_search_icon">Search Icon</string>
     <string name="text_watch_list">Watch List</string>
