@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.anime_watchlist.models.Anime;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AnimeDetailsActivity extends AppCompatActivity {
 
@@ -64,6 +66,11 @@ public class AnimeDetailsActivity extends AppCompatActivity {
                 updateWatchlistButtonState(addToWatchlistBtn, anime);
                 
                 addToWatchlistBtn.setOnClickListener(v -> {
+                    if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                        Toast.makeText(this, "Please log in to add to watchlist", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    
                     if (WatchListManager.getInstance().isInWatchlist(anime)) {
                         WatchListManager.getInstance().removeFromWatchlist(anime);
                         Toast.makeText(this, "Removed from Watchlist", Toast.LENGTH_SHORT).show();

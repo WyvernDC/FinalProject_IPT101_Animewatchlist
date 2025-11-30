@@ -2,13 +2,20 @@ package com.example.anime_watchlist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.anime_watchlist.models.Anime;
 import com.example.anime_watchlist.models.AnimeResponse;
+import com.example.anime_watchlist.models.Genre;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,24 +45,30 @@ public class MainActivity extends AppCompatActivity {
         api = RetrofitClient.getInstance().create(AnimeAPI.class);
 
         // Setup Adapters and LayoutManagers
-        setupRecyclerView(recyclerLatest, adapterLatest = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card), true);
-        setupRecyclerView(recyclerUpcoming, adapterUpcoming = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card), true);
-        setupRecyclerView(recyclerTop, adapterTop = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card), true);
-        setupRecyclerView(recyclerAction, adapterAction = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card), true);
-        setupRecyclerView(recyclerRomance, adapterRomance = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card), true);
+        // Use item_anime_card_horizontal for horizontal scrolling lists to ensure proper sizing and resolution
+        setupRecyclerView(recyclerLatest, adapterLatest = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card_horizontal), true);
+        setupRecyclerView(recyclerUpcoming, adapterUpcoming = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card_horizontal), true);
+        setupRecyclerView(recyclerTop, adapterTop = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card_horizontal), true);
+        setupRecyclerView(recyclerAction, adapterAction = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card_horizontal), true);
+        setupRecyclerView(recyclerRomance, adapterRomance = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card_horizontal), true);
 
-        // Grid Layout for "For You"
+        // Grid Layout for "For You" - Uses the responsive card layout (match_parent width for column fit)
         adapterGrid = new AnimeAdapter(new ArrayList<>(), R.layout.item_anime_card);
-        recyclerGrid.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerGrid.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerGrid.setAdapter(adapterGrid);
 
-        // Load Data
+        // Load Data - Staggered to prevent Rate Limiting (429)
         loadLatestAnime();
-        loadUpcomingAnime();
-        loadTopAnime();
-        loadGridAnime(); // "For You" (e.g. Action search)
-        loadActionAnime();
-        loadRomanceAnime();
+
+        new Handler(Looper.getMainLooper()).postDelayed(this::loadUpcomingAnime, 1000);
+
+        new Handler(Looper.getMainLooper()).postDelayed(this::loadTopAnime, 2000);
+
+        new Handler(Looper.getMainLooper()).postDelayed(this::loadActionAnime, 3500);
+
+        new Handler(Looper.getMainLooper()).postDelayed(this::loadForYouAnime, 5000);
+
+        new Handler(Looper.getMainLooper()).postDelayed(this::loadRomanceAnime, 6500);
 
         // Setup Listeners for Nav Bar
         findViewById(R.id.layout_search_bar).setOnClickListener(v -> {
@@ -64,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.tv_list_button).setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, WatchListActivity.class));
+        });
+
+        // New Profile Listener
+        findViewById(R.id.img_profile).setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
         });
     }
 
@@ -111,21 +129,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadGridAnime() {
-        api.searchAnime("action").enqueue(new Callback<AnimeResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<AnimeResponse> call, @NonNull Response<AnimeResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    adapterGrid.updateData(response.body().getData());
-                }
-            }
-            @Override
-            public void onFailure(@NonNull Call<AnimeResponse> call, @NonNull Throwable t) {}
-        });
-    }
-
     private void loadActionAnime() {
-        api.searchAnime("action").enqueue(new Callback<AnimeResponse>() {
+        api.searchAnime("action", null).enqueue(new Callback<AnimeResponse>() {
             @Override
             public void onResponse(@NonNull Call<AnimeResponse> call, @NonNull Response<AnimeResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -137,8 +142,50 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void loadForYouAnime() {
+        // Get watchlist
+        List<Anime> watchlist = WatchListManager.getInstance().getWatchlist();
+        String genreIdToSearch = "1"; // Default to Action (ID 1)
+
+        if (!watchlist.isEmpty()) {
+            Map<Integer, Integer> genreCounts = new HashMap<>();
+            for (Anime anime : watchlist) {
+                if (anime.getGenres() != null) {
+                    for (Genre g : anime.getGenres()) {
+                        genreCounts.put(g.getMal_id(), genreCounts.getOrDefault(g.getMal_id(), 0) + 1);
+                    }
+                }
+            }
+
+            // Find most frequent genre
+            int maxId = -1;
+            int maxCount = -1;
+            for (Map.Entry<Integer, Integer> entry : genreCounts.entrySet()) {
+                if (entry.getValue() > maxCount) {
+                    maxCount = entry.getValue();
+                    maxId = entry.getKey();
+                }
+            }
+
+            if (maxId != -1) {
+                genreIdToSearch = String.valueOf(maxId);
+            }
+        }
+
+        api.searchAnime(null, genreIdToSearch).enqueue(new Callback<AnimeResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<AnimeResponse> call, @NonNull Response<AnimeResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    adapterGrid.updateData(response.body().getData());
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<AnimeResponse> call, @NonNull Throwable t) {}
+        });
+    }
+
     private void loadRomanceAnime() {
-        api.searchAnime("romance").enqueue(new Callback<AnimeResponse>() {
+        api.searchAnime("romance", null).enqueue(new Callback<AnimeResponse>() {
             @Override
             public void onResponse(@NonNull Call<AnimeResponse> call, @NonNull Response<AnimeResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

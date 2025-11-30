@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.anime_watchlist" />
+                  <option name="mobileSdkAppId" value="1:361192484440:android:1ca091b4716a5c937ce42d" />
+                  <option name="projectId" value="animewatchlistdatabase" />
+                  <option name="projectNumber" value="361192484440" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
