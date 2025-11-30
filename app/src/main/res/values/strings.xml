@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Anime watchlist</string>
     <string name="cd_animedao_logo">AnimeDao Logo</string>
-    <string name="text_animedao">AnimeDao</string>
+    <string name="text_animedao">OtakuHub</string>
     <string name="hint_search">Search your movie...</string>
     <string name="cd_search_icon">Search Icon</string>
     <string name="text_watch_list">Watch List</string>
@@ -12,4 +12,7 @@
     <string name="cd_back_arrow">Back</string>
     <string name="title_watchlist">Watchlist</string>
     <string name="subtitle_watchlist">All your favorite movies in one place</string>
+    <string name="desc_profile">Profile</string>
+    <string name="header_popular_action">Popular Action</string>
+    <string name="header_top_romance">Top Romance</string>
 </resources>
