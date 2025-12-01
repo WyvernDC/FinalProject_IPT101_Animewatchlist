@@ -87,6 +87,25 @@
                 android:textColor="@android:color/white"
                 android:backgroundTint="#FF6600" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rate this Anime:"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="24dp"
+                android:textStyle="bold" />
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:numStars="5"
+                android:stepSize="1"
+                android:progressTint="#FFD700"
+                android:progressBackgroundTint="@android:color/darker_gray"
+                android:secondaryProgressTint="#FFD700" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

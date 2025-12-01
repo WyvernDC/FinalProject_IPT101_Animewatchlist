@@ -3,6 +3,7 @@ package com.example.anime_watchlist;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.anime_watchlist.models.Anime;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class AnimeDetailsActivity extends AppCompatActivity {
 
@@ -36,23 +36,26 @@ public class AnimeDetailsActivity extends AppCompatActivity {
             TextView metadata = findViewById(R.id.tv_metadata);
             TextView description = findViewById(R.id.tv_description);
             Button addToWatchlistBtn = findViewById(R.id.btn_add_watchlist);
+            RatingBar ratingBar = findViewById(R.id.rating_bar);
 
-            title.setText(anime.getTitle());
+            if (title != null) title.setText(anime.getTitle());
             
             String metaText = "";
             if (anime.getRating() != null) metaText += anime.getRating();
             if (anime.getScore() != null) metaText += " | Score: " + anime.getScore();
             if (anime.getEpisodes() != null) metaText += " | " + anime.getEpisodes() + " eps";
             
-            metadata.setText(metaText);
+            if (metadata != null) metadata.setText(metaText);
             
-            if (anime.getSynopsis() != null) {
-                description.setText(anime.getSynopsis());
-            } else {
-                description.setText("No description available.");
+            if (description != null) {
+                if (anime.getSynopsis() != null) {
+                    description.setText(anime.getSynopsis());
+                } else {
+                    description.setText("No description available.");
+                }
             }
 
-            if (anime.getImages() != null && anime.getImages().getJpg() != null) {
+            if (heroImage != null && anime.getImages() != null && anime.getImages().getJpg() != null) {
                 String imageUrl = anime.getImages().getJpg().getLarge_image_url();
                 if (imageUrl == null) imageUrl = anime.getImages().getJpg().getImage_url();
                 
@@ -79,6 +82,25 @@ public class AnimeDetailsActivity extends AppCompatActivity {
                         WatchListManager.getInstance().addToWatchlist(anime);
                         Toast.makeText(this, "Added to Watchlist", Toast.LENGTH_SHORT).show();
                         addToWatchlistBtn.setText("REMOVE FROM WATCHLIST");
+                    }
+                });
+            }
+
+            if (ratingBar != null) {
+                // Initialize rating from API (Firebase)
+                WatchListManager.getInstance().getUserRating(anime, rating -> {
+                    ratingBar.setRating(rating);
+                });
+
+                ratingBar.setOnRatingBarChangeListener((ratingBar1, rating, fromUser) -> {
+                    if (fromUser) {
+                        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                            Toast.makeText(this, "Please log in to rate", Toast.LENGTH_SHORT).show();
+                            // Reset logic if needed, or just ignore
+                            return;
+                        }
+                        WatchListManager.getInstance().setUserRating(anime, rating);
+                        Toast.makeText(AnimeDetailsActivity.this, "Rating saved: " + rating, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

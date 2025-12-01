@@ -15,8 +15,13 @@ public class WatchListManager {
     private static WatchListManager instance;
     private List<Anime> watchlist;
     private DatabaseReference databaseReference;
+    private DatabaseReference ratingsReference;
     private ValueEventListener valueEventListener;
     private String currentUserId;
+
+    public interface RatingCallback {
+        void onRatingLoaded(float rating);
+    }
 
     private WatchListManager() {
         watchlist = new ArrayList<>();
@@ -36,10 +41,13 @@ public class WatchListManager {
             currentUserId = user.getUid();
             databaseReference = FirebaseDatabase.getInstance().getReference("users")
                     .child(currentUserId).child("watchlist");
+            ratingsReference = FirebaseDatabase.getInstance().getReference("users")
+                    .child(currentUserId).child("ratings");
             attachDatabaseListener();
         } else {
             currentUserId = null;
             databaseReference = null;
+            ratingsReference = null;
             watchlist.clear();
         }
     }
@@ -117,5 +125,37 @@ public class WatchListManager {
 
     public List<Anime> getWatchlist() {
         return new ArrayList<>(watchlist);
+    }
+
+    public void getUserRating(Anime anime, final RatingCallback callback) {
+        if (ratingsReference == null || anime == null || anime.getTitle() == null) {
+            callback.onRatingLoaded(0f);
+            return;
+        }
+        String key = sanitizeKey(anime.getTitle());
+        ratingsReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Float rating = snapshot.getValue(Float.class);
+                callback.onRatingLoaded(rating != null ? rating : 0f);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                callback.onRatingLoaded(0f);
+            }
+        });
+    }
+
+    public void setUserRating(Anime anime, float rating) {
+        if (ratingsReference != null && anime != null && anime.getTitle() != null) {
+            String key = sanitizeKey(anime.getTitle());
+            ratingsReference.child(key).setValue(rating);
+        }
+    }
+
+    private String sanitizeKey(String key) {
+        // Replace characters that are not allowed in Firebase keys
+        return key.replaceAll("[^a-zA-Z0-9]", "_");
     }
 }
