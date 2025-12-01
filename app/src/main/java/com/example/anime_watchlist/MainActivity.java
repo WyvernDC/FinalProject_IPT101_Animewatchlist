@@ -130,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadActionAnime() {
-        api.searchAnime("action", null).enqueue(new Callback<AnimeResponse>() {
+        // Search by Genre ID: 1 for Action
+        api.searchAnime(null, "1").enqueue(new Callback<AnimeResponse>() {
             @Override
             public void onResponse(@NonNull Call<AnimeResponse> call, @NonNull Response<AnimeResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -185,7 +186,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadRomanceAnime() {
-        api.searchAnime("romance", null).enqueue(new Callback<AnimeResponse>() {
+        // Search by Genre ID: 22 for Romance
+        api.searchAnime(null, "22").enqueue(new Callback<AnimeResponse>() {
             @Override
             public void onResponse(@NonNull Call<AnimeResponse> call, @NonNull Response<AnimeResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

@@ -1,0 +1,42 @@
+package com.example.anime_watchlist.models;
+
+import java.io.Serializable;
+
+public class Genre implements Serializable {
+    private int mal_id;
+    private String name;
+    private String url;
+    private int count;
+
+    public int getMal_id() {
+        return mal_id;
+    }
+
+    public void setMal_id(int mal_id) {
+        this.mal_id = mal_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+}
