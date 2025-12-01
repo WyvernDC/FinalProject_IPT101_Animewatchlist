@@ -13,6 +13,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="start"
+        android:layout_marginTop="32dp"
         android:src="@android:drawable/ic_media_previous"
         android:contentDescription="Back"
         android:padding="12dp"

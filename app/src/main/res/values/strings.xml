@@ -15,4 +15,15 @@
     <string name="desc_profile">Profile</string>
     <string name="header_popular_action">Popular Action</string>
     <string name="header_top_romance">Top Romance</string>
+    
+    <!-- Auth Strings -->
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="login_caps">LOGIN</string>
+    <string name="no_account">Don\'t have an account yet?</string>
+    <string name="sign_up"> Sign Up</string>
+    <string name="sign_up_caps">SIGN UP</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="log_in"> Log In</string>
+    <string name="logo_desc">Logo</string>
 </resources>
