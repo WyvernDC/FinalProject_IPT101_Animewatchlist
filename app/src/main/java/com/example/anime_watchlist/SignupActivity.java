@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
     private Button btnSignup;
     private TextView tvLoginLink;
+    private ImageButton btnBack;
     private FirebaseAuth mAuth;
 
     @Override
@@ -35,6 +37,7 @@ public class SignupActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.et_signup_password);
         btnSignup = findViewById(R.id.btn_signup);
         tvLoginLink = findViewById(R.id.tv_login_link);
+        btnBack = findViewById(R.id.btn_back);
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +50,13 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish(); // Go back to LoginActivity
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

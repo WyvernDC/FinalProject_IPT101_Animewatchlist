@@ -52,25 +52,6 @@
                 android:ellipsize="end"
                 android:visibility="visible"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_badge"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp">
-
-                <TextView
-                    android:id="@+id/animeDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ep: 24"
-                    android:textColor="#FFD700"
-                    android:textSize="12sp"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 
